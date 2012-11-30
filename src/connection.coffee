@@ -404,7 +404,17 @@ class Connection extends EventEmitter
     @tokenStreamParser.addBuffer(data)
 
   sendInitialSql: ->
-    payload = new SqlBatchPayload('set textsize ' + @config.options.textsize, @currentTransactionDescriptor())
+    payload = new SqlBatchPayload('set textsize ' + @config.options.textsize + ';' + 
+	'SET ANSI_NULLS ON;' +
+        'SET CURSOR_CLOSE_ON_COMMIT ON;' +
+        'SET ANSI_NULL_DFLT_ON ON;' +
+        'SET ANSI_PADDING ON;' +
+        'SET QUOTED_IDENTIFIER ON;' +
+        'SET ANSI_WARNINGS ON;' +
+        'SET ARITHABORT ON;' +
+        'SET CONCAT_NULL_YIELDS_NULL ON;' +
+        'SET NUMERIC_ROUNDABORT OFF;',
+	@currentTransactionDescriptor())
     @messageIo.sendMessage(TYPE.SQL_BATCH, payload.data)
 
   processedInitialSql: ->
