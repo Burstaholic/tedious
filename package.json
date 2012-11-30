@@ -44,6 +44,6 @@
   },
   "scripts": {
     "test": "scripts/tests-unit",
-    "publish": "scripts/build"
+    "preinstall": "scripts/build"
   }
 }
